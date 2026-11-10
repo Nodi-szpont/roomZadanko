@@ -2,6 +2,7 @@ package com.example.roomzadaniee;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
-        rybyDataBase.zwrocGryDao().wstawRybyDoBazy(
+        rybyDataBase.zwrocRybyDao().wstawRybyDoBazy(
                 new Ryby("karp", 10, 80, "nie", "slodkowodny")
         );
 
@@ -63,17 +64,29 @@ public class MainActivity extends AppCompatActivity {
                                 editTextPodOchrona.getText().toString(),
                                 spinnerKategoria.getSelectedItem().toString()
                         );
-                        rybyDataBase.zwrocGryDao().wstawRybyDoBazy(ryby);
+                        rybyDataBase.zwrocRybyDao().wstawRybyDoBazy(ryby);
                     }
                 }
         );
-        gryList = rybyDataBase.zwrocGryDao().zwrocWszystkieRyby();
+        gryList = rybyDataBase.zwrocRybyDao().zwrocWszystkieRyby();
         arrayAdapter = new ArrayAdapter<>(
                 MainActivity.this,
                 android.R.layout.simple_list_item_1,
                 gryList
         );
         listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                rybyDataBase.zwrocRybyDao().usunZBazy(gryList.get(i));
+                gryList.remove(i);
+                arrayAdapter.notifyDataSetChanged();
+
+                return false;
+            }
+        });
 
     }
 }

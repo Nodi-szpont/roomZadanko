@@ -5,5 +5,5 @@ import androidx.room.RoomDatabase;
 
 @Database(entities = {Ryby.class}, version = 2)
 public abstract class RybyDataBase extends RoomDatabase {
-    public abstract RybyDAO zwrocGryDao();
+    public abstract RybyDAO zwrocRybyDao();
 }
