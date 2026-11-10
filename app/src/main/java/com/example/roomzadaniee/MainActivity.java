@@ -1,6 +1,10 @@
 package com.example.roomzadaniee;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button buttonDodaj;
+    EditText editTextNazwa, editTextWaga, editTextDlugosc, editTextPodOchrona;
+    Spinner spinnerKategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,28 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         rybyDataBase.zwrocGryDao().wstawRybyDoBazy(
                 new Ryby("karp", 10, 80, "nie", "slodkowodny")
+        );
+
+        buttonDodaj = findViewById(R.id.buttonDodaj);
+        editTextNazwa = findViewById(R.id.editTextNazwa);
+        editTextWaga = findViewById(R.id.editTextWaga);
+        editTextDlugosc = findViewById(R.id.editTextDlugosc);
+        editTextPodOchrona = findViewById(R.id.editTextPodOchrona);
+        spinnerKategoria = findViewById(R.id.spinner);
+        buttonDodaj.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Ryby ryby = new Ryby(
+                                editTextNazwa.getText().toString(),
+                                Integer.parseInt(editTextWaga.getText().toString()),
+                                Integer.parseInt(editTextDlugosc.getText().toString()),
+                                editTextPodOchrona.getText().toString(),
+                                spinnerKategoria.getSelectedItem().toString()
+                        );
+                        rybyDataBase.zwrocGryDao().wstawRybyDoBazy(ryby);
+                    }
+                }
         );
 
     }
