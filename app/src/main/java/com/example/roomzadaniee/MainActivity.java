@@ -2,8 +2,10 @@ package com.example.roomzadaniee;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -13,11 +15,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     Button buttonDodaj;
     EditText editTextNazwa, editTextWaga, editTextDlugosc, editTextPodOchrona;
     Spinner spinnerKategoria;
+    ListView listView;
+    List<Ryby> gryList;
+    ArrayAdapter<Ryby> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         editTextDlugosc = findViewById(R.id.editTextDlugosc);
         editTextPodOchrona = findViewById(R.id.editTextPodOchrona);
         spinnerKategoria = findViewById(R.id.spinner);
+        listView = findViewById(R.id.listView);
         buttonDodaj.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -59,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        gryList = rybyDataBase.zwrocGryDao().zwrocWszystkieRyby();
+        arrayAdapter = new ArrayAdapter<>(
+                MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                gryList
+        );
+        listView.setAdapter(arrayAdapter);
 
     }
 }

@@ -20,4 +20,16 @@ public class Ryby {
         this.podOchrona = podOchrona;
         this.kategoriaNazwa = kategoriaNazwa;
     }
+
+    @Override
+    public String toString() {
+        return "Ryby{" +
+                "id=" + id +
+                ", nazwa='" + nazwa + '\'' +
+                ", waga=" + waga +
+                ", dlugosc=" + dlugosc +
+                ", podOchrona='" + podOchrona + '\'' +
+                ", kategoriaNazwa='" + kategoriaNazwa + '\'' +
+                '}';
+    }
 }
