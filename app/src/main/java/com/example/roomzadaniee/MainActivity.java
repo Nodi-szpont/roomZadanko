@@ -1,5 +1,7 @@
 package com.example.roomzadaniee;
 
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,12 +22,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button buttonAktualizacja;
     Button buttonDodaj;
     EditText editTextNazwa, editTextWaga, editTextDlugosc, editTextPodOchrona;
     Spinner spinnerKategoria;
     ListView listView;
     List<Ryby> gryList;
     ArrayAdapter<Ryby> arrayAdapter;
+    Ryby kliknitetaryba;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         editTextPodOchrona = findViewById(R.id.editTextPodOchrona);
         spinnerKategoria = findViewById(R.id.spinner);
         listView = findViewById(R.id.listView);
+        buttonAktualizacja = findViewById(R.id.buttonAktualizacja);
         buttonDodaj.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -87,6 +92,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        kliknitetaryba = gryList.get(i);
+                        editTextNazwa.setText(kliknitetaryba.nazwa);
+                        editTextWaga.setText(""+ kliknitetaryba.waga);
+                        editTextDlugosc.setText(""+ kliknitetaryba.dlugosc);
+                        editTextPodOchrona.setText(""+ kliknitetaryba.podOchrona);
+                        buttonAktualizacja.setVisibility(VISIBLE);
+                    }
+                }
+        );
+        buttonAktualizacja.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        kliknitetaryba.nazwa = editTextNazwa.getText().toString();
+                        rybyDataBase.zwrocRybyDao().aktualizujRybe(kliknitetaryba);
+                    }
+                }
+        );
     }
 }
